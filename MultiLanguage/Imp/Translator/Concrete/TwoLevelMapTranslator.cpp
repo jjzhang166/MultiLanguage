@@ -15,6 +15,12 @@ void TwoLevelMapTranslator::insertItemInDict(PrefixDict &dict, const string &pre
     }
 }
 
+void TwoLevelMapTranslator::clearItems()
+{
+    m_dict.clear();
+    m_reverse_dict.clear();
+}
+
 void TwoLevelMapTranslator::importItems(const list<TransItem> &items)
 {
     BOOST_FOREACH(const TransItem &item, items) {

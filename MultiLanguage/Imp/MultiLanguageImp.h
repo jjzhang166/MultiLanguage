@@ -16,7 +16,7 @@ public:
     MultiLanguageImp();
 
 public:
-    void setFilePath(const string &path);
+    bool setFilePath(const string &path);
     bool setLanguage(const string &language);
     void setFileType(const string &type);
 

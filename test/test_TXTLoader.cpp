@@ -5,29 +5,25 @@
 #include <boost/filesystem.hpp>
 
 #include "../MultiLanguage/Imp/Translator/Translator.h"
-#include "../MultiLanguage/Imp/Loader/Concrete/XMLLoader.h"
+#include "../MultiLanguage/Imp/Loader/Concrete/TXTLoader.h"
 
-struct XMLLoaderLoadSuite
+struct TXTLoaderLoadSuite
 {
     bool prepareXmlFile()
     {
         string context = \
-            "<language id=\"en\">\n"
-            "  <prefix id=\"main\">\n"
-            "    <item orgin=\"AA\" trans=\"XXXX\">\n"
-            "    <item orgin=\"BB\" trans=\"YYYY\">\n"
-            "    <item orgin=\"CC\" trans=\"ZZZZ\">\n"
-            "  </prefix>\n"
-            "  <prefix id=\"ui\">\n"
-            "    <item orgin=\"AA\" trans=\"MMMM\">\n"
-            "  </prefix>\n"
-            "  <prefix id=\"touch\">\n"
-            "    <item orgin=\"AA\" trans=\"FFFF\">\n"
-            "  </prefix>\n"
-            "  <prefix id=\"\">\n"
-            "    <item orgin=\"New&#xaLine\" trans=\"Hello,&#xaJohn\">\n"
-            "  </prefix>\n"
-            "</language>\n";
+            "[main]\n"
+            "AA=XXXX\n"
+            "BB=YYYY\n"
+            "CC=ZZZZ\n"
+            "\n"
+            "[ui]\n"
+            "AA=MMMM\n"
+            "\n"
+            "[touch]\n"
+            "AA=FFFF\n"
+            "[]\n"
+            "New\\x0aLine=Hello,\\x0aJohn\n";
         std::ofstream ofs;
         ofs.open(fileName.c_str());
         if (!ofs)
@@ -37,32 +33,32 @@ struct XMLLoaderLoadSuite
         return true;
     }
 
-    XMLLoaderLoadSuite()
-        : fileName("xml_loader_test.xml")
+    TXTLoaderLoadSuite()
+        : fileName("txt_loader_test.xml")
     {
         sptrTranslator = Translator::make();
-        sptrXMLLoader = boost::make_shared<XMLLoader>();
-        sptrXMLLoader->setTranslator(sptrTranslator);
+        sptrTXTLoader = boost::make_shared<TXTLoader>();
+        sptrTXTLoader->setTranslator(sptrTranslator);
 
         prepareXmlFile();
     }
 
-    ~XMLLoaderLoadSuite()
+    ~TXTLoaderLoadSuite()
     {
         using namespace boost::filesystem;
         remove(path(fileName));
     }
 
-    boost::shared_ptr<XMLLoader> sptrXMLLoader;
+    boost::shared_ptr<TXTLoader> sptrTXTLoader;
     boost::shared_ptr<Translator> sptrTranslator;
     string fileName;
 };
 
-BOOST_AUTO_TEST_SUITE(xml_load)
+BOOST_AUTO_TEST_SUITE(txt_load)
 
-BOOST_FIXTURE_TEST_CASE(load, XMLLoaderLoadSuite)
+BOOST_FIXTURE_TEST_CASE(load, TXTLoaderLoadSuite)
 {
-    sptrXMLLoader->loadFrom(fileName);
+    sptrTXTLoader->loadFrom(fileName);
     BOOST_CHECK_EQUAL(sptrTranslator->translate("AA", "main"), "XXXX");
     BOOST_CHECK_EQUAL(sptrTranslator->translate("aa", "main"), "aa");
     BOOST_CHECK_EQUAL(sptrTranslator->translate("BB", "main"), "YYYY");

@@ -19,6 +19,7 @@ struct TransItem
 class IImportAndExport
 {
 public:
+    virtual void clearItems() = 0;
     virtual void importItems(const list<TransItem> &items) = 0;
     virtual void exportItems(list<TransItem> &items) const = 0;
 

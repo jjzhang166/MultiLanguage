@@ -7,6 +7,7 @@
 class TwoLevelMapTranslator : public Translator
 {
 public:
+    virtual void clearItems();
     virtual void importItems(const list<TransItem> &items);
     virtual void exportItems(list<TransItem> &items) const;
 

@@ -1,5 +1,6 @@
 #include "MultiLanguageImp.h"
 #include <boost/make_shared.hpp>
+#include <boost/filesystem.hpp>
 
 #include "Translator/Concrete/TwoLevelMapTranslator.h"
 
@@ -13,15 +14,20 @@ MultiLanguageImp::MultiLanguageImp()
     m_sptrTranslator = make_shared<TwoLevelMapTranslator>();
 }
 
-void MultiLanguageImp::setFilePath(const string &path)
+bool MultiLanguageImp::setFilePath(const string &path)
 {
-    //!TODO: Check the path
-    m_strPath = path;
+    using namespace boost;
+    filesystem::path p(path);
+    if (filesystem::exists(p)) {
+        m_strPath = path;
+        return true;
+    }
+    return false;
 }
 
 void MultiLanguageImp::setFileType(const string &type)
 {
-    m_strPath = type;
+    m_strFileType = type;
 }
 
 bool MultiLanguageImp::setLanguage(const string &language)
