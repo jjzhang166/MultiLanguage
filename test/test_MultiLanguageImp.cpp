@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE(translate_en)
 
 BOOST_AUTO_TEST_CASE(translate_ch)
 {
-    m_sptrMultiLanguage->setLanguage("en");
+    m_sptrMultiLanguage->setLanguage("ch");
     BOOST_CHECK_EQUAL(m_sptrMultiLanguage->translate("GA", "meas"), "Yun Zhou");
     BOOST_CHECK_EQUAL(m_sptrMultiLanguage->translate("EDD", "meas"), "Yu Chan Qi");
     BOOST_CHECK_EQUAL(m_sptrMultiLanguage->translate("EDD", "touch"), "Yu\nChan\nQi");
