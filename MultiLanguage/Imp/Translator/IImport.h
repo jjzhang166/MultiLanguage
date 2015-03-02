@@ -1,5 +1,5 @@
-#ifndef __IIMPORT_AND_EXPORT_H__
-#define __IIMPORT_AND_EXPORT_H__
+#ifndef __IIMPORT_H__
+#define __IIMPORT_H__
 
 #include <string>
 #include <list>
@@ -16,7 +16,7 @@ struct TransItem
     string prefix;
 };
 
-class IImportAndExport
+class IImport
 {
 public:
     virtual void clearItems() = 0;
@@ -24,7 +24,7 @@ public:
     virtual void exportItems(list<TransItem> &items) const = 0;
 
 protected:
-    ~IImportAndExport() {}
+    ~IImport() {}
 };
 
-#endif //__IIMPORT_AND_EXPORT_H__
+#endif //__IIMPORT_H__

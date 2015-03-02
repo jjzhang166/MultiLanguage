@@ -7,7 +7,7 @@
 using std::string;
 using boost::weak_ptr;
 
-class IImportAndExport;
+class IImport;
 
 class Loader
 {
@@ -15,13 +15,13 @@ public:
     virtual ~Loader() {}
 
 public:
-    void setTranslator(weak_ptr<IImportAndExport> wptrTranslator);
+    void setTranslator(weak_ptr<IImport> wptrTranslator);
 
     virtual bool loadFrom(const string &fileName) = 0;
     virtual bool saveTo(const string &fileName) = 0;
 
 protected:
-    weak_ptr<IImportAndExport> m_wptrTranslator;
+    weak_ptr<IImport> m_wptrTranslator;
 };
 
 #endif //__LOADER_H__

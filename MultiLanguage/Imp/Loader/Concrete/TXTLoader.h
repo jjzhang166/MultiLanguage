@@ -3,7 +3,7 @@
 
 #include <list>
 #include "../Loader.h"
-#include "../../Translator/IImportAndExport.h"
+#include "../../Translator/IImport.h"
 
 using std::list;
 

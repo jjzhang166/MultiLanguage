@@ -1,7 +1,7 @@
 #include "TXTLoader.h"
 #include <fstream>
 #include <boost/shared_ptr.hpp>
-#include "../../Translator/IImportAndExport.h"
+#include "../../Translator/IImport.h"
 
 using namespace std;
 
@@ -78,7 +78,7 @@ bool TXTLoader::parseFile(const string &fileName)
     }
     ifile.close();
 
-    boost::shared_ptr<IImportAndExport> sptr = m_wptrTranslator.lock();
+    boost::shared_ptr<IImport> sptr = m_wptrTranslator.lock();
     if (sptr) {
         sptr->importItems(m_lstItems);
         return true;
