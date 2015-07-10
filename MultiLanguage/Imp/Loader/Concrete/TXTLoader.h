@@ -1,34 +1,31 @@
 #ifndef __TXT_LOADER_H__
 #define __TXT_LOADER_H__
 
-#include <list>
 #include "../Loader.h"
-#include "../../Translator/IImport.h"
+#include "../../Translator/IImportAndExport.h"
 
-using std::list;
+using std::string;
 
 class TXTLoader : public Loader
 {
 public:
     virtual bool loadFrom(const string &fileName);
-    virtual bool saveTo(const string &fileName);
 
 protected:
     enum ELineType { ERROR, PREFIX, ITEM };
     ELineType analyseLineType(const string str) const;
 
-    bool parseAsPrefix(const string &str);
-    bool parseAsKeyValue(const string &str);
+    bool parseAsDomain(const string &str);
+    bool parseAsItem(const string &str);
     bool parseOneLine(const string &str);
     bool parseFile(const string &fileName);
 
     string cutComment(const string &str) const;
-    string stringStrip(const string &str) const;
-    string convertSpecialChar(const string &str) const;
 
 private:
-    string m_strCurrPrefix;
+    string m_strCurrDomain;
     list<TransItem> m_lstItems;
+    list<DomainInhertUnit> m_lstDomains;
 };
 
 #endif //__TXT_LOADER_H__

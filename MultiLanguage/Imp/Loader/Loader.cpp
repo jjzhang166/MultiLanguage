@@ -1,7 +1,7 @@
 #include "Loader.h"
-#include "../Translator/IImport.h"
+#include "../Translator/IImportAndExport.h"
 
-void Loader::setTranslator(weak_ptr<IImport> wptrTranslator)
+void Loader::setTranslator(weak_ptr<IImportAndExport> wptrTranslator)
 {
     m_wptrTranslator = wptrTranslator;
 }

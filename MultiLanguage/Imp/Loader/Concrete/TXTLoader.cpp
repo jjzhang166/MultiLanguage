@@ -1,15 +1,17 @@
 #include "TXTLoader.h"
 #include <fstream>
 #include <boost/shared_ptr.hpp>
-#include "../../Translator/IImport.h"
+#include "../../Translator/IImportAndExport.h"
+#include "Util.h"
 
 using namespace std;
 
-/**
- * \bref    分析一行，判别出它是[xx]还是key=value。返回类型
- * \param   str
- * \return  ELineType
- */
+string strip_and_convert(const string &src)
+{
+    using namespace Util;
+    return convert_special_chars(string_strip(src));
+}
+
 TXTLoader::ELineType TXTLoader::analyseLineType(const string str) const
 {
     if (str[0] == '[' && str[str.length()-1] == ']')
@@ -21,48 +23,51 @@ TXTLoader::ELineType TXTLoader::analyseLineType(const string str) const
     return ERROR;
 }
 
-bool TXTLoader::parseAsPrefix(const string &str)
+bool TXTLoader::parseAsDomain(const string &str)
 {
-    string strPrefix = str.substr(1, str.length()-2);
-    strPrefix = stringStrip(strPrefix);
-    strPrefix = convertSpecialChar(strPrefix);
+    string strDomain = str.substr(1, str.length()-2);
 
-    m_strCurrPrefix = strPrefix;
+    string::size_type colon_pos = strDomain.find_first_of(':');
+    if (colon_pos != string::npos) {
+        string strDerive = strip_and_convert(strDomain.substr(0, colon_pos));
+        string strBase   = strip_and_convert(strDomain.substr(colon_pos+1));
+        m_lstDomains.push_back(make_pair(strDerive, strBase));
+        m_strCurrDomain = strDerive;
+    } else {
+        m_strCurrDomain = strip_and_convert(strDomain);
+    }
+
     return true;
 }
 
-bool TXTLoader::parseAsKeyValue(const string &str)
+bool TXTLoader::parseAsItem(const string &str)
 {
-    string::size_type separatePos = str.find_first_of('=');
-    if (separatePos != string::npos) {
-        string strKey = str.substr(0, separatePos);
-        strKey = stringStrip(strKey);
-        strKey = convertSpecialChar(strKey);
+    string::size_type separaterPos = str.find_first_of('=');
+    if (separaterPos != string::npos) {
+        string strKey   = Util::string_strip(str.substr(0, separaterPos));
+        string strValue = Util::string_strip(str.substr(separaterPos+1));
 
-        string strValue = str.substr(separatePos+1);
-        strValue = stringStrip(strValue);
-        strValue = convertSpecialChar(strValue);
+        strKey   = Util::convert_special_chars(strKey);
+        strValue = Util::convert_special_chars(strValue);
 
-        m_lstItems.push_back(TransItem(strKey, strValue, m_strCurrPrefix));
-        return true;
+        m_lstItems.push_back(TransItem(strKey, strValue, m_strCurrDomain));
     }
     return false;
 }
 
 bool TXTLoader::parseOneLine(const string &str)
 {
-    string strLine = cutComment(str);
-    strLine = stringStrip(strLine);
+    string strWithoutComment = cutComment(str);
+    string strStriped = Util::string_strip(strWithoutComment);
 
-    ELineType type = analyseLineType(strLine);
+    ELineType type = analyseLineType(strStriped);
     if (type == PREFIX) {
-        return parseAsPrefix(strLine);
+        return parseAsDomain(strStriped);
     } else if (type == ITEM) {
-        return parseAsKeyValue(strLine);
+        return parseAsItem(strStriped);
     } else {
         return false;
     }
-    return false;
 }
 
 bool TXTLoader::parseFile(const string &fileName)
@@ -78,11 +83,12 @@ bool TXTLoader::parseFile(const string &fileName)
     }
     ifile.close();
 
-    boost::shared_ptr<IImport> sptr = m_wptrTranslator.lock();
+    boost::shared_ptr<IImportAndExport> sptr = m_wptrTranslator.lock();
     if (sptr) {
-        sptr->importItems(m_lstItems);
+        sptr->importItems(m_lstItems, m_lstDomains);
         return true;
     }
+
     return false;
 }
 
@@ -91,28 +97,13 @@ bool TXTLoader::loadFrom(const string &fileName)
     return parseFile(fileName);
 }
 
-bool TXTLoader::saveTo(const string &fileName)
+string TXTLoader::cutComment(const string &strOrig) const
 {
-    //!TODO
-    (void)fileName;
-    return false;
+    string::size_type pos = strOrig.find_first_of('#');
+    if (pos != string::npos) {
+        return strOrig.substr(0, pos);
+    } else {
+        return strOrig;
+    }
 }
 
-
-string TXTLoader::cutComment(const string &str) const
-{
-    //!TODO:
-    return str;
-}
-
-string TXTLoader::stringStrip(const string &str) const
-{
-    //!TODO:
-    return str;
-}
-
-string TXTLoader::convertSpecialChar(const string &str) const
-{
-    //!TODO:
-    return str;
-}

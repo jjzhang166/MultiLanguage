@@ -7,7 +7,6 @@ class XMLLoader : public Loader
 {
 public:    
     virtual bool loadFrom(const string &fileName);
-    virtual bool saveTo(const string &fileName);
 };
 
 #endif //__XML_LOADER_H__

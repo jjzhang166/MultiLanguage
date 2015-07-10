@@ -7,8 +7,10 @@ using std::string;
 class ITranslate
 {
 public:
-    virtual string translate(const string &origin_text, const string &prefix) const = 0;
-    virtual string reverse_translate(const string &trans_text, const string &prefix) const = 0;
+    virtual string translate(const string &origin_text, const string &domain) const = 0;
+    virtual string reverse_translate(const string &trans_text, const string &domain) const = 0;
+
+    virtual void setDebug(bool bIsEnable) = 0;
 
 protected:
     ~ITranslate() {}

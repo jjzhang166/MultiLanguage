@@ -15,10 +15,15 @@ public:
     MultiLanguage();
 
 public:
-    void setLanguage(const string &language);
+    bool setFilePath(const string &path);
+    bool setLanguage(const string &language);
 
-    string translate(const string &origin_text, const string &prefix) const;
-    string reverse_translate(const string &trans_text, const string &prefix) const;
+    void setDebug(bool bIsEnable);
+
+    string translate(const string &origin_text, const string &domain) const;
+    string reverse_translate(const string &trans_text, const string &domain) const;
+
+    void reload();
 
 private:
     shared_ptr<MultiLanguageImp> m_sptrImp;

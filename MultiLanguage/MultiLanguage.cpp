@@ -6,21 +6,35 @@ MultiLanguage::MultiLanguage()
 {
     m_sptrImp = boost::make_shared<MultiLanguageImp>();
     m_sptrImp->setFilePath("");
-    m_sptrImp->setFileType("xml");
     m_sptrImp->setLanguage("en");
 }
 
-void MultiLanguage::setLanguage(const string &language)
+bool MultiLanguage::setFilePath(const string &path)
 {
-    m_sptrImp->setLanguage(language);
+    return m_sptrImp->setFilePath(path);
 }
 
-string MultiLanguage::translate(const string &origin_text, const string &prefix) const
+bool MultiLanguage::setLanguage(const string &language)
 {
-    return m_sptrImp->translate(origin_text, prefix);
+    return m_sptrImp->setLanguage(language);
 }
 
-string MultiLanguage::reverse_translate(const string &trans_text, const string &prefix) const
+void MultiLanguage::setDebug(bool bIsEnable)
 {
-    return m_sptrImp->reverse_translate(trans_text, prefix);
+    m_sptrImp->setDebug(bIsEnable);
+}
+
+string MultiLanguage::translate(const string &origin_text, const string &domain) const
+{
+    return m_sptrImp->translate(origin_text, domain);
+}
+
+string MultiLanguage::reverse_translate(const string &trans_text, const string &domain) const
+{
+    return m_sptrImp->reverse_translate(trans_text, domain);
+}
+
+void MultiLanguage::reload()
+{
+    return m_sptrImp->reload();
 }

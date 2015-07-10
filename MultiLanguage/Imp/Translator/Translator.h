@@ -2,10 +2,10 @@
 #define __TRANSLATOR_H__
 
 #include <boost/shared_ptr.hpp>
-#include "IImport.h"
+#include "IImportAndExport.h"
 #include "ITranslate.h"
 
-class Translator : public IImport
+class Translator : public IImportAndExport
                  , public ITranslate
 {
 public:
