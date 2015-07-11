@@ -62,7 +62,7 @@ struct MultiLanguageImpTestXMLSuit
 
         m_sptrMultiLanguage = make_shared<MultiLanguageImp>();
         m_sptrMultiLanguage->setFilePath("./");
-        m_sptrMultiLanguage->setFileType("xml");
+        m_sptrMultiLanguage->setFileType(MultiLanguageImp::XML);
     }
 
     ~MultiLanguageImpTestXMLSuit()
@@ -157,7 +157,7 @@ struct MultiLanguageImpTestTXTSuit
 
         m_sptrMultiLanguage = make_shared<MultiLanguageImp>();
         m_sptrMultiLanguage->setFilePath("./");
-        m_sptrMultiLanguage->setFileType("txt");
+        m_sptrMultiLanguage->setFileType(MultiLanguageImp::TXT);
     }
 
     ~MultiLanguageImpTestTXTSuit()
