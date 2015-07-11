@@ -12,3 +12,5 @@
 *.la
 *.a
 *.html
+build/
+tags

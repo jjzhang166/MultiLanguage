@@ -10,18 +10,21 @@ bool operator == (const TransItem &lhs, const TransItem &rhs)
 {
     return (lhs.origin_text == rhs.origin_text &&
             lhs.trans_text == rhs.trans_text &&
-            lhs.prefix == rhs.prefix);
+            lhs.domain == rhs.domain);
 }
 
 BOOST_AUTO_TEST_CASE(import)
 {
     list<TransItem> import_dict;
+
     boost::assign::push_back(import_dict)(TransItem("AA", "XXXXX", "1"))\
                                          (TransItem("BB", "YYXXX", "1"))\
                                          (TransItem("CC", "XXYYZZ", "2"))\
                                          (TransItem("AA", "DDDDD", "2"));
     TwoLevelMapTranslator translator;
-    translator.importItems(import_dict);
+    list<DomainInhertUnit> inhert_list;
+
+    translator.importItems(import_dict, inhert_list);
 
     list<TransItem> export_dict;
     translator.exportItems(export_dict);
@@ -57,7 +60,9 @@ struct TranslateFixture
                 (TransItem("BB", "YYXXX", "1"))\
                 (TransItem("CC", "XXYYZZ", "2"))\
                 (TransItem("AA", "DDDDD", "2"));
-        translator.importItems(import_dict);
+        
+        list<DomainInhertUnit> inhert_list;
+        translator.importItems(import_dict, inhert_list);
     }
 
     ~TranslateFixture()
