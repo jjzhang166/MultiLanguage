@@ -3,14 +3,14 @@
 # 
 ###########################################################
 
-.PHONY : all library test example clean
+.PHONY : all library build_test example clean test
 
-all: library test example
+all: library build_test example
 
 library: 
 	$(MAKE) -C MultiLanguage
 
-test: library
+build_test: library
 	$(MAKE) -C test
 
 example: library
@@ -18,6 +18,9 @@ example: library
 
 install:
 	$(MAKE) -C MultiLanguage install
+
+test:
+	$(MAKE) -C test  run_test
 
 clean:
 	$(MAKE) -C MultiLanguage clean

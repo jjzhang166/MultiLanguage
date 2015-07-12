@@ -17,5 +17,8 @@ all: $(target)
 $(target) : $(objects)
 	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
+run_test:
+	-./$(target)
+
 clean:
 	-rm -f $(objects)
