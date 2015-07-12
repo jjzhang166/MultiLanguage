@@ -5,7 +5,7 @@
 
 boost::shared_ptr<Translator> Translator::make()
 {
-#if !QT_NO_DEBUG && 1
+#ifdef ENABLE_TRANSLATOR_TRACE
     return boost::make_shared<TranslatorTrace>(
             boost::make_shared<TwoLevelMapTranslator>()
             );

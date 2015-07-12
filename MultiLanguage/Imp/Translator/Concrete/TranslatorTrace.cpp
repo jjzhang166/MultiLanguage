@@ -1,6 +1,7 @@
 
 #include "TranslatorTrace.h"
 #include <fstream>
+#include <iostream>
 #include <boost/typeof/typeof.hpp>
 #include <boost/foreach.hpp>
 
