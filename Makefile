@@ -3,6 +3,11 @@
 # 
 ###########################################################
 
+CC=gcc
+CXX=g++
+
+export CC CXX
+
 .PHONY : all library build_test example clean test
 
 all: library build_test example
